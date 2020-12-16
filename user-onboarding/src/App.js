@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import 'normalize.css';
+import { v4 as uuidv4 } from 'uuid';
 import Form from './components/Form';
 import User from './components/User';
 import axios from 'axios';
@@ -30,21 +31,21 @@ function App() {
   const [formErrors, setFormErrors] = useState(initialErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
 
-  const getUsers = () => {
-    axios
-      .get('https://reqres.in/api/users')
-      .then((res) => {
-        setUsers(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getUsers = () => {
+  //   axios
+  //     .get('https://reqres.in/api/users')
+  //     .then((res) => {
+  //       setUsers(res.data.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const postNewUser = (newUser) => {
     axios
       .post('https://reqres.in/api/users', newUser)
       .then((res) => {
-        setUsers([res.data.data, ...users]);
-        console.log(users);
+        setUsers([res.data, ...users]);
+        setFormValues(initialValues);
       })
       .catch((err) => console.log(err));
   };
@@ -54,20 +55,12 @@ function App() {
       .reach(schema, name)
       .validate(value)
       .then(() => {
-        setFormErrors({
-          ...formErrors,
-          [name]: '',
-        });
+        setFormErrors({ ...formErrors, [name]: '' });
+      })
+      .catch((err) => {
+        setFormErrors({ ...formErrors, [name]: err.errors[0] });
       });
-    setFormValues({
-      ...formValues,
-      [name]: value,
-      // }).catch((err) => {
-      // setFormErrors({
-      //   ...formErrors,
-      //   [name]: err.errors[0],
-      // });
-    });
+    setFormValues({ ...formValues, [name]: value });
   };
 
   const formSubmit = () => {
@@ -81,9 +74,9 @@ function App() {
     console.log(newUser);
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   getUsers();
+  // }, []);
 
   useEffect(() => {
     schema.isValid(formValues).then((valid) => {
@@ -101,9 +94,9 @@ function App() {
         disabled={disabled}
         errors={formErrors}
       />
-      <h2>List of current users:</h2>
+      <h2>Current users:</h2>
       {users.map((user) => {
-        return <User key={user.id} userinfo={user} />;
+        return <User key={uuidv4()} userinfo={user} />;
       })}
     </div>
   );

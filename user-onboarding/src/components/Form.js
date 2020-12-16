@@ -17,8 +17,7 @@ function Form({ values, submit, change, disabled, errors }) {
     <StyledForm onSubmit={onSubmit}>
       <div className='errors'>
         <h2>Add new user:</h2>
-        <div className='errors'>
-          {/* 🔥 RENDER THE VALIDATION ERRORS HERE */}
+        <div className='error-container'>
           <div>{errors.name}</div>
           <div>{errors.email}</div>
           <div>{errors.pass}</div>
@@ -53,7 +52,8 @@ function Form({ values, submit, change, disabled, errors }) {
           />
         </label>
         <label>
-          Did you read the TOS?
+          <div>{errors.tos}</div>
+          Accept Terms of Service:
           <input
             type='checkbox'
             name='tos'
@@ -61,7 +61,9 @@ function Form({ values, submit, change, disabled, errors }) {
             onChange={onChange}
           />
         </label>
-        <button disabled={disabled}>Add</button>
+        <div>
+          <button disabled={disabled}>Add</button>
+        </div>
       </div>
     </StyledForm>
   );
@@ -70,12 +72,9 @@ function Form({ values, submit, change, disabled, errors }) {
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   input {
-    margin: 5px 0;
-    display: flex;
+    margin: 8px;
   }
 `;
 
