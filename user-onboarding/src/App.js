@@ -46,6 +46,7 @@ function App() {
       .then((res) => {
         setUsers([res.data, ...users]);
         setFormValues(initialValues);
+        console.log(users);
       })
       .catch((err) => console.log(err));
   };
