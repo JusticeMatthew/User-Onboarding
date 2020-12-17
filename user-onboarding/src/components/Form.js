@@ -18,9 +18,9 @@ function Form({ values, submit, change, disabled, errors }) {
       <div className='errors'>
         <h2>Add new user:</h2>
         <div className='error-container'>
-          <div>{errors.name}</div>
-          <div>{errors.email}</div>
-          <div>{errors.pass}</div>
+          <div className='nameError'>{errors.name}</div>
+          <div className='emailError'>{errors.email}</div>
+          <div className='passwordError'>{errors.pass}</div>
         </div>
       </div>
       <div className='inputs'>
